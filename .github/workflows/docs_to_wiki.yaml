@@ -30,8 +30,8 @@ jobs:
           mkdir tmp_wiki
           cd tmp_wiki
           git init
-          git config user.name $USER_NAME
-          git config user.email $USER_EMAIL
+          git config user.name ${{ github.event.head_commit.author.name }}
+          git config user.email ${{ github.event.head_commit.author.email }}
           git pull https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git
       # 4. Synchronize differences between `docs` & `tmp_wiki`
       # 5. Push new Wiki content
@@ -40,5 +40,5 @@ jobs:
           rsync -av --delete docs/ tmp_wiki/ --exclude .git
           cd tmp_wiki
           git add .
-          git commit -m "Update Wiki content" 
+          git commit -m ${{ github.event.head_commit.message }}
           git push https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git master

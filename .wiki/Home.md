@@ -1,11 +1,5 @@
 Moar stuff
-asdf
-asdf
-asfdasdfa
-asdf
-asdfasd
-adsf
-This is a wiki home now!
+# This is a wiki home now!
 asdfsafd
 
 Let's update something here?

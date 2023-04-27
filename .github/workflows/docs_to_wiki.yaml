@@ -3,13 +3,13 @@ name: Docs to Wiki on merge
 on:
   push:
     paths:
-      - docs/** # This includes all sub folders
+      - .wiki/** # This includes all sub folders
     branches:
       - main
 permissions:
   contents: write
 env:
-  WIKI_DIR: docs
+  WIKI_DIR: wiki
   TOKEN: ${{ secrets.GITHUB_TOKEN }} # This is the repository secret
   OWNER: ${{ github.event.repository.owner.name }} # This is the repository owner
   REPOSITORY_NAME: ${{ github.event.repository.name }} # This is the repository name

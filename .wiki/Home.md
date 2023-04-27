@@ -3,6 +3,7 @@ Moar stuff
 ## Other
 
 # part 3
+![doggo](./doggo.jpg)
 [test.scala](test.scala)
 
 #### section 4

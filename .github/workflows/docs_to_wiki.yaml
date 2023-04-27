@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
 env:
-  WIKI_DIR: wiki
+  WIKI_DIR: .wiki
   TOKEN: ${{ secrets.GITHUB_TOKEN }} # This is the repository secret
   OWNER: ${{ github.event.repository.owner.name }} # This is the repository owner
   REPOSITORY_NAME: ${{ github.event.repository.name }} # This is the repository name

@@ -33,5 +33,5 @@ jobs:
           rsync -av --delete $WIKI_DIR/ tmp_wiki/ --exclude .git
           cd tmp_wiki
           git add .
-          git commit -m "${{ github.event.head_commit.message }}" --author="${{ github.event.head_commit.author.name }} ${{ github.event.head_commit.author.email }}"
+          git commit -m "${{ github.event.head_commit.message }}" --author="${{ github.event.head_commit.author.name }} <${{ github.event.head_commit.author.email }}>"
           git push origin master

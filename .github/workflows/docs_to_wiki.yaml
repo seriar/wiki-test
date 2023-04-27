@@ -3,9 +3,9 @@ name: Docs to Wiki on merge
 on:
   push:
     paths:
-      - docs/** # This includes all sub folders
+      - $WIKI_DIR/** # This includes all sub folders
     branches:
-      - main # This can be changed to any branch of your preference
+      - ${{ github.event.repository.default_branch }}
 permissions:
   contents: write
 env:

@@ -38,4 +38,4 @@ jobs:
           cd tmp_wiki
           git add .
           git commit -m "${{ github.event.head_commit.message }}"
-          git push https://$TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git master
+          git push origin master

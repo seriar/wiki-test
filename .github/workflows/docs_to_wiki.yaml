@@ -10,8 +10,6 @@ on:
 
 env:
   USER_TOKEN: ${{ secrets.WIKI_SYNC_SECRET }} # This is the repository secret
-  USER_NAME: seriar # Enter the username of your (bot) account
-  USER_EMAIL: iarovyi.sergii@gmail.com # Enter the e-mail of your (bot) account
   OWNER: ${{ github.event.repository.owner.name }} # This is the repository owner
   REPOSITORY_NAME: ${{ github.event.repository.name }} # This is the repository name
 
@@ -30,8 +28,8 @@ jobs:
           mkdir tmp_wiki
           cd tmp_wiki
           git init
-          git config user.name ${{ github.event.head_commit.author.name }}
-          git config user.email ${{ github.event.head_commit.author.email }}
+          git config user.name "${{ github.event.head_commit.author.name }}"
+          git config user.email "${{ github.event.head_commit.author.email }}"
           git pull https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git
       # 4. Synchronize differences between `docs` & `tmp_wiki`
       # 5. Push new Wiki content
@@ -40,5 +38,5 @@ jobs:
           rsync -av --delete docs/ tmp_wiki/ --exclude .git
           cd tmp_wiki
           git add .
-          git commit -m ${{ github.event.head_commit.message }}
+          git commit -m "${{ github.event.head_commit.message }}"
           git push https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git master

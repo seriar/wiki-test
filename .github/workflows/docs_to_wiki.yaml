@@ -1,5 +1,4 @@
 name: Docs to Wiki on merge
-
 # Trigger this action only if there are changes pushed to the docs/** directory under the main branch
 on:
   push:
@@ -7,12 +6,12 @@ on:
       - docs/** # This includes all sub folders
     branches:
       - main # This can be changed to any branch of your preference
-
+permissions:
+  contents: write
 env:
-  USER_TOKEN: ${{ secrets.WIKI_SYNC_SECRET }} # This is the repository secret
+  TOKEN: ${{ github.token }} # This is the repository secret
   OWNER: ${{ github.event.repository.owner.name }} # This is the repository owner
   REPOSITORY_NAME: ${{ github.event.repository.name }} # This is the repository name
-
 jobs:
   docs_to_wiki:
     name: Docs to Wiki on merge
@@ -30,7 +29,7 @@ jobs:
           git init
           git config user.name "${{ github.event.head_commit.author.name }}"
           git config user.email "${{ github.event.head_commit.author.email }}"
-          git pull https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git
+          git pull https://$TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git
       # 4. Synchronize differences between `docs` & `tmp_wiki`
       # 5. Push new Wiki content
       - name: Push content to wiki
@@ -39,4 +38,4 @@ jobs:
           cd tmp_wiki
           git add .
           git commit -m "${{ github.event.head_commit.message }}"
-          git push https://$USER_TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git master
+          git push https://$TOKEN@github.com/$OWNER/$REPOSITORY_NAME.wiki.git master

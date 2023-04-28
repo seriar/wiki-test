@@ -1,0 +1,36 @@
+name: Sync back to .wiki
+on: 
+  push:
+    branches:
+      - master
+permissions:
+  contents: write
+env:
+  WIKI_DIR: .wiki
+  TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  OWNER: ${{ github.event.repository.owner.name }}
+  REPO: ${{ github.event.repository.name }}
+  AUTHOR_NAME: ${{ github.event.head_commit.author.name }}
+  AUTHOR_EMAIL: ${{ github.event.head_commit.author.email }}
+  COMMIT_MSG: ${{ github.event.head_commit.message }}
+jobs:
+  sync_wiki_back:
+    name: Sync back wiki repo to .wiki folder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Clone main repo
+        run: |
+          MAIN_REPO=${REPO::-5} # drop .wiki
+          git clone https://$OWNER:$TOKEN@github.com/$OWNER/$MAIN_REPO.git tmp_main
+      - name: Sync back if applicable
+        run: |
+          d=$(diff . tmp_main/$WIKI_DIR -r -x .git -x .github -x tmp_main)
+          if [ "$d" != "" ] ; then
+            echo "sync required for $d"
+            rsync -av --delete . tmp_main/$WIKI_DIR/ --exclude .git --exclude .github --exclude tmp_main
+            cd tmp_main
+            git add .
+            git -c "user.name=$AUTHOR_NAME" -c "user.email=$AUTHOR_EMAIL" commit -m "$COMMIT_MSG"
+            git push origin $(git rev-parse --abbrev-ref HEAD)
+          fi
